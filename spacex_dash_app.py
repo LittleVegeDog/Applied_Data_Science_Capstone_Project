@@ -22,13 +22,13 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
                                 # The default select value is for ALL sites
                                 dcc.Dropdown(id='site-dropdown',
                                              options=[
-                                                        {'label': 'All Sites', 'value': 'ALL'},
+                                                        {'label': 'All Sites', 'value': 'ALL Sites'},
                                                         {'label': 'CCAFS LC-40', 'value': 'CCAFS LC-40'},
                                                         {'label': 'KSC LC-39A', 'value': 'KSC LC-39A'},
                                                         {'label': 'VAFB SLC-4E', 'value': 'VAFB SLC-4E'},
                                                         {'label': 'CCAFS SLC-40', 'value': 'CCAFS SLC-40'}
                                             ],
-                                            value='ALL',
+                                            value='ALL Sites',
                                             placeholder="Select a Launch Site here",
                                             searchable=True
                                 ),
@@ -64,7 +64,7 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
 
 def get_pie_chart(entered_site):
     
-    if entered_site == 'ALL':
+    if entered_site == 'ALL Sites':
         fig = px.pie(spacex_df, 
                      values='class', 
                      names='Launch Site', 
@@ -87,7 +87,7 @@ def get_pie_chart(entered_site):
 def get_scatter_plot(entered_site,slider_value):
     filtered_df = spacex_df[(spacex_df['Payload Mass (kg)'] >= slider_value[0]) 
                              & (spacex_df['Payload Mass (kg)'] <= slider_value[1])]
-    if entered_site == 'ALL':
+    if entered_site == 'ALL Sites':
         fig = px.scatter(filtered_df,
                          x = 'Payload Mass (kg)', 
                          y = 'class',
@@ -101,7 +101,7 @@ def get_scatter_plot(entered_site,slider_value):
                          x = 'Payload Mass (kg)', 
                          y = 'class',
                          color = 'Booster Version Category',
-                         title='Correlation between Payload and Success for all Sites')
+                         title='Correlation between Payload and Success for ' + entered_site)
         return fig
 #Run the app
 if __name__ == '__main__':
